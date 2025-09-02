@@ -52,7 +52,11 @@ public class UserService {
                 () -> new AppException(ErrorCode.USER_NOT_EXISTED)));
     }
     public void deleteUser(String id){
+        if(userRepository.existsById(id)) {
             userRepository.deleteById(id);
+        }else {
+            throw new AppException(ErrorCode.USER_NOT_EXISTED);
+        }
     }
     public UserResponse updateUser(String userId,UserUpdateRequest request){
         User user= userRepository.findById(userId).orElseThrow(
