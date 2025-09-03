@@ -18,6 +18,11 @@ public enum ErrorCode {
     CATEGORY_EXIST(1008,"Category has been existed",HttpStatus.BAD_REQUEST),
     CATEGORY_NOT_EXIST(1009,"Category does not exist yet",HttpStatus.BAD_REQUEST),
     PRODUCT_NOT_EXIST(1009,"Product does not exist yet",HttpStatus.BAD_REQUEST),
+    PERMISSION_NOT_EXIST(1010,"Permission does not exist yet",HttpStatus.BAD_REQUEST),
+    PERMISSION_EXIST(1011,"Permission has been existed ",HttpStatus.BAD_REQUEST),
+    ROLE_NOT_EXIST(1012,"Role does not exist yet",HttpStatus.BAD_REQUEST),
+    ROLE_EXIST(1013,"Role has been existed ",HttpStatus.BAD_REQUEST),
+
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

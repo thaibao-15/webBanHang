@@ -174,7 +174,8 @@ public class Authenticationservice {
 //                    role.getPermissions().forEach(permission -> stringJoiner.add(permission.getName()));
 //            });
 
-        if (!CollectionUtils.isEmpty(user.getRoles())) user.getRoles().forEach(s -> stringJoiner.add(s));
+
+//        if (!CollectionUtils.isEmpty(user.getRoles())) user.getRoles().forEach(s -> stringJoiner.add(s));
 
 
         return stringJoiner.toString();

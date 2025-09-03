@@ -42,9 +42,9 @@ public class UserService {
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        HashSet<String> hashSet=new HashSet<>();
-        hashSet.add(Role.USER.name());
-        user.setRoles(hashSet);
+//        HashSet<String> hashSet=new HashSet<>();
+//        hashSet.add(Role.USER.name());
+//        user.setRoles(hashSet);
 
         userRepository.save(user);
 
