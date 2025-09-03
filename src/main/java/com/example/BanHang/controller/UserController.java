@@ -53,5 +53,11 @@ public class UserController {
                 .result(userService.updateUser(Id,request))
                 .build();
     }
+    @GetMapping("/myinfo")
+    ApiResponse<UserResponse> getMyInfo(){
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.getMyInfo())
+                .build();
+    }
 
 }
