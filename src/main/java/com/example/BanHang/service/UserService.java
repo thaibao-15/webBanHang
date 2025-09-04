@@ -8,6 +8,7 @@ import com.example.BanHang.enums.Role;
 import com.example.BanHang.exception.AppException;
 import com.example.BanHang.exception.ErrorCode;
 import com.example.BanHang.mapper.UserMapper;
+import com.example.BanHang.repository.RoleRepository;
 import com.example.BanHang.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ import java.util.List;
 public class UserService {
     UserMapper userMapper;
     UserRepository userRepository;
+    RoleRepository roleRepository;
     PasswordEncoder passwordEncoder =new BCryptPasswordEncoder();
 
     public UserResponse createUser(UserCreationRequest request){
@@ -75,6 +77,9 @@ public class UserService {
         userMapper.updateUser(user,request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
+        var roles =roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
+
         return userMapper.toUserResponse(userRepository.save(user));
     }
     public UserResponse getMyInfo(){
@@ -82,6 +87,7 @@ public class UserService {
         String name = context.getAuthentication().getName();
 
         User user= userRepository.findByUsername(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
 
         return userMapper.toUserResponse(user);
     }
