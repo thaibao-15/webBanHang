@@ -52,7 +52,8 @@ public class UserService {
 
         return userMapper.toUserResponse(user);
     }
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('update')")
     public List<UserResponse> getAllUsers(){
         return userRepository.findAll()
                 .stream()
@@ -82,6 +83,7 @@ public class UserService {
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
+
     public UserResponse getMyInfo(){
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();

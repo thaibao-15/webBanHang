@@ -16,6 +16,9 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import javax.crypto.spec.SecretKeySpec;
 
@@ -23,12 +26,17 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-    private final String[] PUBLIC_ENDPOINTS = {
-            "/users", "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh","/products"
+    private final String[] PUBLIC_ENDPOINTS_POST = {
+            "/users", "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh"
+    };
+    private final String[] PUBLIC_ENDPOINTS_GET ={
+            "/products","/category", "/products/*","/category/*"
     };
 
     @Value("${jwt.signerKey}")
     private String signerKey;
+
+    CustomJwtDecoder customJwtDecoder;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(requset->requset
@@ -37,11 +45,14 @@ public class SecurityConfig {
 ////                .hasAnyAuthority("ROLE_ADMIN")
 //                .hasRole(Role.ADMIN.name())
 
-                .requestMatchers(HttpMethod.POST,PUBLIC_ENDPOINTS)
+                .requestMatchers(HttpMethod.POST,PUBLIC_ENDPOINTS_POST)
                 .permitAll()
+                .requestMatchers(HttpMethod.GET,PUBLIC_ENDPOINTS_GET)
+                .permitAll()
+
                 .anyRequest()
                 .authenticated());
-        httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder())
+        httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(customJwtDecoder)
                 .jwtAuthenticationConverter(jwtAuthenticationConverter())));
 
         // tat csrf de co the truy cap
@@ -49,13 +60,21 @@ public class SecurityConfig {
 
         return httpSecurity.build();
     }
+
     @Bean
-    JwtDecoder jwtDecoder() {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
-        return NimbusJwtDecoder.withSecretKey(secretKeySpec)
-                .macAlgorithm(MacAlgorithm.HS512)
-                .build();
+    public CorsFilter corsFilter() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+
+        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.addAllowedHeader("*");
+
+        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+
+        return new CorsFilter(urlBasedCorsConfigurationSource);
     }
+
 
     @Bean
     PasswordEncoder passwordEncoder() {

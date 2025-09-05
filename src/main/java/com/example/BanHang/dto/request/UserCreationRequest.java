@@ -1,5 +1,6 @@
 package com.example.BanHang.dto.request;
 
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -12,6 +13,7 @@ import java.util.Set;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCreationRequest {
+    @Size(min = 4, message = "USERNAME_INVALID")
     String username;
 
     String password;
