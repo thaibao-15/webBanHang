@@ -33,6 +33,7 @@ public class UserService {
     UserMapper userMapper;
     UserRepository userRepository;
     RoleRepository roleRepository;
+    CartService cartService;
     PasswordEncoder passwordEncoder =new BCryptPasswordEncoder();
 
     public UserResponse createUser(UserCreationRequest request){
@@ -49,6 +50,7 @@ public class UserService {
 //        user.setRoles(hashSet);
 
         userRepository.save(user);
+
 
         return userMapper.toUserResponse(user);
     }

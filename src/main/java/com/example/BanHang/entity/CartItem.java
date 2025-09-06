@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -22,8 +23,9 @@ public class CartItem {
     @JoinColumn(name = "cart_id", nullable = false)
     Cart cart;
 
-    @Column(name = "product_id")
-    Integer productId; // nếu bạn có entity Product thì nên đổi sang @ManyToOne
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    Product products; // nếu bạn có entity Product thì nên đổi sang @ManyToOne
 
     @Column(nullable = false)
     Integer quantity;

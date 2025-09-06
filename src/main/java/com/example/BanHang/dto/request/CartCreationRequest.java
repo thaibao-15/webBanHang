@@ -19,9 +19,9 @@ import java.util.Set;
 public class CartCreationRequest {
     String userId; // nếu sau này bạn có entity User thì nên đổi sang @ManyToOne
 
-    LocalDateTime createdAt;
+//    LocalDateTime createdAt;
 
     // Quan hệ 1-nhiều với CartItem
 //    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<String> items;
+    List<CartItem> items;
 }

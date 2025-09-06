@@ -16,9 +16,8 @@ import java.util.Set;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CartItemCreationRequest {
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_id", nullable = false)
-    Cart cart;
+
+    Integer cartId;
 
     Integer productId; // nếu bạn có entity Product thì nên đổi sang @ManyToOne
 

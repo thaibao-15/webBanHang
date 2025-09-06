@@ -22,6 +22,10 @@ public enum ErrorCode {
     PERMISSION_EXIST(1011,"Permission has been existed ",HttpStatus.BAD_REQUEST),
     ROLE_NOT_EXIST(1012,"Role does not exist yet",HttpStatus.BAD_REQUEST),
     ROLE_EXIST(1013,"Role has been existed ",HttpStatus.BAD_REQUEST),
+    CART_NOT_EXIST(1014,"Cart does not exist yet",HttpStatus.BAD_REQUEST),
+    CART_EXIST(1015,"cart has been existed ",HttpStatus.BAD_REQUEST),
+    CARTITEM_NOT_EXIST(1016,"Cart Items does not exist yet",HttpStatus.BAD_REQUEST),
+    CARTITEM_EXIST(1017,"CartItems has been existed ",HttpStatus.BAD_REQUEST),
 
     ;
 

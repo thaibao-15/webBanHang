@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CartCreationResponse {
+public class CartResponse {
     String userId; // nếu sau này bạn có entity User thì nên đổi sang @ManyToOne
 
 
@@ -19,5 +19,5 @@ public class CartCreationResponse {
 
     // Quan hệ 1-nhiều với CartItem
 //    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<String> items;
+    List<CartItemResponse> items;
 }

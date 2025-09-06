@@ -20,13 +20,13 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @Column(name = "user_id")
-    String userId; // nếu sau này bạn có entity User thì nên đổi sang @ManyToOne
-
-    @Column(name = "created_at")
     LocalDateTime createdAt;
 
     // Quan hệ 1-nhiều với CartItem
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     List<CartItem> items;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
