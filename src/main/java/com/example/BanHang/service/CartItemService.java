@@ -79,7 +79,4 @@ public class CartItemService {
 
         return cartItemMapper.toCartItemResponse(cartItem);
     }
-
-
-
 }
