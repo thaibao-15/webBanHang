@@ -1,10 +1,12 @@
 package com.example.BanHang.mapper;
 
 import com.example.BanHang.dto.request.CartItemCreationRequest;
+import com.example.BanHang.dto.request.CartItemUpdateRequest;
 import com.example.BanHang.dto.response.CartItemResponse;
 import com.example.BanHang.entity.CartItem;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -29,4 +31,7 @@ public interface CartItemMapper {
 
 
     List<CartItemResponse> toCartItemList(List<CartItem> response);
+
+    void updateCartItem(@MappingTarget CartItem cartItem, CartItemUpdateRequest request);
+
 }
