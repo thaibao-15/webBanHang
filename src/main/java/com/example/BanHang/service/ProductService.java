@@ -45,15 +45,15 @@ public class ProductService {
     }
     public ProductResponse getProduct(String id){
         return productMapper.toProductResponse(productRepository
-                .findById(id)
+                .findById(Integer.valueOf(id))
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_EXIST)));
     }
     public void deleteProduct(String id){
-        productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_EXIST));
-        productRepository.deleteById(id);
+        productRepository.findById(Integer.valueOf(id)).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_EXIST));
+        productRepository.deleteById(Integer.valueOf(id));
     }
     public ProductResponse updateProduct(String id, ProductUpdateRequest request){
-        Product product =productRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_EXIST));
+        Product product =productRepository.findById(Integer.valueOf(id)).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_EXIST));
         productMapper.toUpdateProduct(product,request);
         // tự động set thời gian update
         product.setUpdatedAt(LocalDateTime.now());

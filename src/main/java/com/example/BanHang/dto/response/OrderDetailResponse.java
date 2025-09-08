@@ -15,7 +15,11 @@ public class OrderDetailResponse {
 
     private double price;
 
-    Order order;
+//    Order order;
 
-    Product product;
+    String productName;
+    double priceProduct;
+    String image;
+    String status;
+
 }

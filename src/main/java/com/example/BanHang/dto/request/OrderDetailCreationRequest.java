@@ -17,8 +17,8 @@ public class OrderDetailCreationRequest {
 
     private double price;
 
-    String OrderId;
+    int orderId;
 
-    String productId;
+    int productId;
 
 }

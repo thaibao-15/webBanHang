@@ -16,7 +16,7 @@ import java.time.LocalDate;
 public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    String id;
+    Integer id;
 
     private Integer quantity;
 

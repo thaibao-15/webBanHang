@@ -16,6 +16,7 @@ public interface CartItemMapper {
     @Mapping(source = "productId", target = "products.id")
     CartItem toCartItem(CartItemCreationRequest request);
 
+
     @Mapping(source = "cart.id", target = "cartId")
     @Mapping(source = "products.id",target = "productId")
     @Mapping(source = "products.name", target = "productName")
@@ -23,10 +24,8 @@ public interface CartItemMapper {
     @Mapping(source = "products.price",target = "price")
     @Mapping(source = "products.stock",target = "stock")
     @Mapping(source = "products.description",target = "description")
-
     @Mapping(source = "cart.user.id",target = "userId")
     @Mapping(source = "cart.user.username",target = "username")
-
     CartItemResponse toCartItemResponse(CartItem cartItem);
 
 

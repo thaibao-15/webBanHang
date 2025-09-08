@@ -39,7 +39,7 @@ public class CartItemService {
     public CartItemResponse createCartItem(CartItemCreationRequest request){
         Cart cart = cartRepository.findById(String.valueOf(request.getCartId())).orElseThrow(() ->
                 new AppException(ErrorCode.CART_NOT_EXIST));
-        Product product = productRepository.findById(String.valueOf(request.getProductId())).orElseThrow(() ->
+        Product product = productRepository.findById(request.getProductId()).orElseThrow(() ->
                 new AppException(ErrorCode.PRODUCT_NOT_EXIST));
 
         CartItem cartItem = cartItemMapper.toCartItem(request);

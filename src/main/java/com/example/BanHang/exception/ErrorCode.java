@@ -26,6 +26,10 @@ public enum ErrorCode {
     CART_EXIST(1015,"cart has been existed ",HttpStatus.BAD_REQUEST),
     CARTITEM_NOT_EXIST(1016,"Cart Items does not exist yet",HttpStatus.BAD_REQUEST),
     CARTITEM_EXIST(1017,"CartItems has been existed ",HttpStatus.BAD_REQUEST),
+    ORDER_NOT_EXIST(1014,"Order does not exist yet",HttpStatus.BAD_REQUEST),
+    ORDER_EXIST(1015,"Order has been existed ",HttpStatus.BAD_REQUEST),
+    ORDER_DETAIL_NOT_EXIST(1016,"Order detail does not exist yet",HttpStatus.BAD_REQUEST),
+    ORDER_DETAIL_EXIST(1017,"Order Detail has been existed ",HttpStatus.BAD_REQUEST),
 
     ;
 
