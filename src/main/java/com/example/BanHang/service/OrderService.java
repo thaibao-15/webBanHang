@@ -3,6 +3,7 @@ package com.example.BanHang.service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.example.BanHang.dto.request.OrderUpdateRequest;
 import org.springframework.stereotype.Service;
 
 import com.example.BanHang.dto.request.OrderCreationRequest;
@@ -35,6 +36,7 @@ public class OrderService {
         Order order = orderMapper.toOrder(request);
         order.setUser(user);
         order.setOrderDate(LocalDateTime.now());
+        order.setDateUpdate(LocalDateTime.now());
         order.setStatus("PENDING");
         if (request.getTotal() != null) {
             order.setTotalAmount(BigDecimal.valueOf(request.getTotal()));
@@ -43,6 +45,16 @@ public class OrderService {
 
         return  orderMapper.toOderResponse(order);
 
+    }
+    public OrderResponse updateOrder(OrderUpdateRequest request,Integer orderId){
+        Order order =orderRepository.findById(orderId).orElseThrow(
+                () -> new AppException(ErrorCode.ORDER_NOT_EXIST));
+
+        orderMapper.updateOrder(order,request);
+        order.setDateUpdate(LocalDateTime.now());
+        orderRepository.save(order);
+
+        return orderMapper.toOderResponse(order);
     }
 
 }

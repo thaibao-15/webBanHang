@@ -37,6 +37,8 @@ public class Order {
     @jakarta.persistence.Column(name = "order_date")
     LocalDateTime orderDate;
 
+    LocalDateTime dateUpdate;
+
     String status;
 
     @jakarta.persistence.Column(name = "total_amount")
