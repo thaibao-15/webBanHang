@@ -2,19 +2,18 @@ package com.example.BanHang.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.example.BanHang.dto.request.OrderUpdateRequest;
+import com.example.BanHang.entity.*;
+import com.example.BanHang.repository.*;
 import org.springframework.stereotype.Service;
 
 import com.example.BanHang.dto.request.OrderCreationRequest;
 import com.example.BanHang.dto.response.OrderResponse;
-import com.example.BanHang.entity.Order;
-import com.example.BanHang.entity.User;
 import com.example.BanHang.exception.AppException;
 import com.example.BanHang.exception.ErrorCode;
 import com.example.BanHang.mapper.OrderMapper;
-import com.example.BanHang.repository.OrderRepository;
-import com.example.BanHang.repository.UserRepository;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +29,12 @@ public class OrderService {
     OrderMapper orderMapper;
     UserRepository userRepository;
 
+    CartRepository cartRepository;
+    CartItemRepository cartItemRepository;
+
+    OrderDetailRepository orderDetailRepository;
+
+
     public OrderResponse createOrder(OrderCreationRequest request){
         User user= userRepository.findById(request.getUserId()).orElseThrow(
                 () -> new AppException(ErrorCode.USER_NOT_EXISTED));
@@ -44,7 +49,6 @@ public class OrderService {
         orderRepository.save(order);
 
         return  orderMapper.toOderResponse(order);
-
     }
     public OrderResponse updateOrder(OrderUpdateRequest request,Integer orderId){
         Order order =orderRepository.findById(orderId).orElseThrow(
@@ -55,6 +59,37 @@ public class OrderService {
         orderRepository.save(order);
 
         return orderMapper.toOderResponse(order);
+    }
+
+    public OrderResponse createOrderAndOrderDetailFromCart(String cartId){
+        Cart cart =cartRepository.findById(cartId).orElseThrow(
+                () -> new AppException(ErrorCode.CART_NOT_EXIST));
+
+        Order order= orderMapper.toOrders(cart);
+        order.setStatus("PENDIND");
+        order.setOrderDate(LocalDateTime.now());
+        order.setDateUpdate(LocalDateTime.now());
+
+//        List<OrderDetail> list =orderDetailRepository.findByOrder_Id(order.getId());
+
+    //        List<CartItem> listCartItem = cartItemRepository.findByCart_Id(cart.getId());
+    //
+    //
+    //        List<OrderDetail> listOrderDetail = orderMapper.toOrderDetail(listCartItem);
+
+        List<OrderDetail> details = cart.getItems().stream()
+                .map(orderMapper::toOrderDetail)
+                .toList();
+
+        details.forEach(d -> d.setOrder(order));
+        order.setOrderDetails(details);
+
+
+        orderRepository.save(order);
+
+
+        return orderMapper.toOderResponse(order);
+
     }
 
 }
