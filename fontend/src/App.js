@@ -1,11 +1,36 @@
-import logo from './logo.svg';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Fragment } from 'react';
 import '~/App.css';
+import DefaultLayout from '~/Layouts/DefaultLayout';
+
+import { publicRoutes } from '~/router';
+
+
 
 function App() {
   return (
-    <div className="App">
+    <Router>
+      <div className="App">
+        <Routes>
+          {publicRoutes.map((route, index) => {
+            const Page = route.component
 
-    </div>
+            let Layout = DefaultLayout
+            if (route.layout) {
+              Layout = route.layout
+            } else if (route.layout === null) {
+              Layout = Fragment
+            }
+
+            return <Route
+              key={index}
+              path={route.path}
+              element={<Layout><Page /></Layout>} />
+          })}
+
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
