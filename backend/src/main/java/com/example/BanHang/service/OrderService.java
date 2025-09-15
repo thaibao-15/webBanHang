@@ -70,7 +70,7 @@ public class OrderService {
         order.setOrderDate(LocalDateTime.now());
         order.setDateUpdate(LocalDateTime.now());
 
-//        List<OrderDetail> list =orderDetailRepository.findByOrder_Id(order.getId());
+    //        List<OrderDetail> list =orderDetailRepository.findByOrder_Id(order.getId());
 
     //        List<CartItem> listCartItem = cartItemRepository.findByCart_Id(cart.getId());
     //

@@ -5,9 +5,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:sqlserver://localhost:1433;databaseName=dbBanHang;encrypt=true;trustServerCertificate=true
-    username: sa
-    password: 12345
+    url: ${DBMS_CONNECTION:jdbc:sqlserver://localhost:1433;databaseName=dbBanHang;encrypt=true;trustServerCertificate=true}
+    username: ${DBMS_USERNAME:sa}
+    password: ${DBMS_PASSWORD:12345}
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
 #  jpa:
 #    hibernate:
@@ -15,6 +15,6 @@ spring:
 #    show-sql: true
 
 jwt:
-  signerKey: "baodeptrai16qTFQgn0y3Rw3U9oKO8Jn7gDxUi54jaB4mVGRwh1pkY7CQaDfgYfB"
+  signerKey: ${JWT_SIGNERKEY}
   valid-duration: 3600 # in second
   refreshable-duration: 36000 # in seconds
