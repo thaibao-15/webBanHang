@@ -39,7 +39,11 @@ public class SecurityConfig {
     CustomJwtDecoder customJwtDecoder;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(requset->requset
+
+        httpSecurity
+                .cors(cors -> {}) // bật cors
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(requset->requset
 
 //                .requestMatchers(HttpMethod.GET,"/users")
 ////                .hasAnyAuthority("ROLE_ADMIN")
@@ -65,9 +69,10 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedOrigin("http://localhost:3000");
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addAllowedHeader("*");
+
 
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);

@@ -2,6 +2,7 @@ import styles from './Home.module.scss';
 import classNames from 'classnames/bind';
 import { useState, useEffect } from 'react';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -12,10 +13,14 @@ function FetchProducts() {
   const [loading, setLoading] = useState(false)
   useEffect(
     () => {
-      fetch('https://fakestoreapi.com/products')
+      fetch('http://localhost:8080/identity/products')
         .then(response => response.json())
-        .then(response => {
-          setProducts(response)
+        .then(data => {
+          if (data.code === 1000 && Array.isArray(data.result)) {
+            setProducts(data.result);
+          } else {
+            setProducts([]); // phòng khi API lỗi
+          }
           setLoading(true)
         })
         .catch(error => console.log('error', error))
@@ -26,27 +31,31 @@ function FetchProducts() {
     <div className={cx('home')}>
       <div className={cx('container')}>
         <h1 className={cx('title')}>Món ăn nổi bật</h1>
-        
+
         <div className={cx('products-grid')}>
-        {!loading && <p>Loading...</p>}
+          {!loading && <p>Loading...</p>}
 
           {products.map((product) => (
-            <div key={product.id} className={cx('product-card')}>
-              <div className={cx('product-image')}>
-                <img src={product.image} alt={product.title} />
-              </div>
-              <div className={cx('product-info')}>
-                <h3 className={cx('product-name')}>{product.title}</h3>
-                <p className={cx('product-description')}>{product.description}</p>
-                <div className={cx('product-price')}>{(product.price)}</div>
-                <button
-                  className={cx('add-to-cart-btn')}
 
-                >
-                  Thêm vào giỏ
-                </button>
+            <Link to={`/products/${product.id}`} >
+
+              <div key={product.id} className={cx('product-card')}>
+                <div className={cx('product-image')}>
+                  <img src={product.image} alt={product.name} />
+                </div>
+                <div className={cx('product-info')}>
+                  <h3 className={cx('product-name')}>{product.name}</h3>
+                  <p className={cx('product-description')}>{product.description}</p>
+                  <div className={cx('product-price')}>{(product.price)}</div>
+                  <button
+                    className={cx('add-to-cart-btn')}
+
+                  >
+                    Thêm vào giỏ
+                  </button>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
