@@ -24,23 +24,23 @@ function Login() {
                     password
                 })
             })
-                .then(res => {
+                .then(async res => {
+                    const data = await res.json(); // đọc JSON dù thành công hay lỗi
                     if (!res.ok) {
-                        throw new Error("Network response was not ok: " + res.status);
+                        // Nếu status != 200 thì ném ra lỗi kèm thông tin JSON
+                        throw new Error(data.message || "Login failed");
                     }
-                    return res.json();
+                    return data;
                 })
                 .then(data => {
-                    console.log("Response data:", data); // log thử để debug
-                    if (data.code === 1000) {
-                        alert('Đăng nhập thành công!');
-                    } else {
-                        alert('Đăng nhập thất bại!');
-                    }
+                    console.log("Login success:", data);
+                    localStorage.setItem("token", data.result.token);
+                    window.location.href = '/';
                 })
                 .catch(err => {
-                    console.error(err);
-                    alert('Đã xảy ra lỗi khi đăng nhập!');
+                    // Lỗi sẽ được show ra ở đây
+                    console.error("Error:", err.message);
+                    alert("Đăng nhập thất bại: " + err.message);
                 });
 
         } catch (error) {
