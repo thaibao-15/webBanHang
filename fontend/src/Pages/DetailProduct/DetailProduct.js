@@ -6,6 +6,8 @@ import { useParams } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
+const token = localStorage.getItem('token');
+
 function DetailProduct() {
   const { id } = useParams(); // lấy id từ URL
   const [product, setProduct] = useState(null);
@@ -15,6 +17,7 @@ function DetailProduct() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
         cartId: "3",

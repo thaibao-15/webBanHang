@@ -8,6 +8,8 @@ const cx = classNames.bind(styles);
 
 // Sample food products data
 
+
+
 function FetchProducts() {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(false)
