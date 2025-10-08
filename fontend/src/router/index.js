@@ -6,6 +6,7 @@ import Header from '~/Layouts/Components/Header';
 import DetailProduct from '~/Pages/DetailProduct';
 import Login from '~/Pages/Login';
 import SignIn from '~/Pages/SignIn';
+import Cart from '~/Pages/Cart';
 
 //không cần login
 const publicRoutes = [
@@ -16,6 +17,7 @@ const publicRoutes = [
     { path: 'products/:id', component: DetailProduct },
     { path: 'login', component: Login, layout: null },
     { path: 'signin', component: SignIn, layout: null },
+    { path: 'cart', component: Cart },
 
     // layout null để không sử dụng layout mặc định,
 

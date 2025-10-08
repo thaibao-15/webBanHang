@@ -32,7 +32,7 @@ function FetchProducts() {
   return (
     <div className={cx('home')}>
       <div className={cx('container')}>
-        <h1 className={cx('title')}>Món ăn nổi bật</h1>
+        <h1 className={cx('title')}>Sản phẩm nổi bật</h1>
 
         <div className={cx('products-grid')}>
           {!loading && <p>Loading...</p>}
@@ -49,12 +49,7 @@ function FetchProducts() {
                   <h3 className={cx('product-name')}>{product.name}</h3>
                   <p className={cx('product-description')}>{product.description}</p>
                   <div className={cx('product-price')}>{(product.price)}</div>
-                  <button
-                    className={cx('add-to-cart-btn')}
-
-                  >
-                    Thêm vào giỏ
-                  </button>
+            
                 </div>
               </div>
             </Link>

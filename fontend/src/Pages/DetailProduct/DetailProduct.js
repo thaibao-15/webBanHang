@@ -3,14 +3,16 @@ import classNames from 'classnames/bind';
 import { useState, useEffect } from 'react';
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { getToken } from '~/Service/Localstorage';
 
 const cx = classNames.bind(styles);
 
-const token = localStorage.getItem('token');
+const token = getToken();
 
 function DetailProduct() {
   const { id } = useParams(); // lấy id từ URL
   const [product, setProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
 
   const handleAddToCart = ({ idProduct, quantity }) => {
     fetch(`http://localhost:8080/identity/cartItems`, {
@@ -20,7 +22,6 @@ function DetailProduct() {
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
-        cartId: "3",
         productId: idProduct,
         quantity: quantity
       }),
@@ -69,13 +70,37 @@ function DetailProduct() {
             <div className={cx('description')}>{product.description}</div>
             <div className={cx('divider')} />
             <div className={cx('metaRow')}>
-              <div className={cx('label')}>Mã sản phẩm</div>
-              <div className={cx('value')}>{product.id || id}</div>
+              <div className={cx('label')}>Số lượng</div>
+              <div className={cx('value')}>
+                <button
+                  className={cx('qtyBtn')}
+                  onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                  disabled={quantity <= 1}
+                >-</button>
+                <input
+                  className={cx('qtyInput')}
+                  type="number"
+                  min="1"
+                  max={product?.stock || 999}
+                  value={quantity}
+                  onChange={(e) => {
+                    const val = parseInt(e.target.value) || 1;
+                    setQuantity(Math.min(Math.max(1, val), product?.stock || 999));
+                  }}
+                />
+                <button
+                  className={cx('qtyBtn')}
+                  onClick={() => setQuantity(q => Math.min((product?.stock || 999), q + 1))}
+                  disabled={quantity >= (product?.stock || 999)}
+                >+</button>
+              </div>
             </div>
+            <div className={cx('divider')} />
+          
             <div className={cx('actions')}>
               <button
                 className={cx('button', 'primary')}
-                onClick={() => handleAddToCart({ idProduct: product.id || id, quantity: 1 })}
+                onClick={() => handleAddToCart({ idProduct: product.id || id, quantity })}
               >
                 Thêm vào giỏ
               </button>

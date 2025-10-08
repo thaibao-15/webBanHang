@@ -1,6 +1,7 @@
 import styles from './Header.module.scss';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
+import { getToken } from '~/Service/Localstorage';
 
 const cx = classNames.bind(styles);
 
@@ -44,7 +45,7 @@ function Header() {
                 <div className={cx('user-menu')}>
                     {/* Shopping Cart */}
                     <div className={cx('cart-icon')} onClick={handleCartClick}>
-                        🛒
+                        <Link to="/cart">🛒  .</Link>
                         <span className={cx('badge')}>2</span>
                     </div>
 
@@ -54,10 +55,16 @@ function Header() {
                         <span className={cx('badge')}>3</span>
                     </div>
 
-                    {/* User Avatar */}
-                    <div className={cx('avatar')}>
-                        U
-                    </div>
+                    {/* User Avatar / Login */}
+                    {getToken() ? (
+                        <div className={cx('avatar')}>
+                            <Link to="/profile">B</Link>
+                        </div>
+                    ) : (
+                        <Link to="/login" >
+                            Đăng nhập
+                        </Link>
+                    )}
                 </div>
             </div>
         </header>

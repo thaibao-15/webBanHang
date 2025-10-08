@@ -37,10 +37,10 @@ public class CartItemController {
                 .result(cartItemService.createCartItem(request))
                 .build();
     }
-    @GetMapping("/{id}")
-    ApiResponse<List<CartItemResponse>> getAllCartItems(@PathVariable String id){
+    @GetMapping()
+    ApiResponse<List<CartItemResponse>> getAllCartItems(){
         return ApiResponse.<List<CartItemResponse>>builder()
-                .result(cartItemService.getAllCartItems(id))
+                .result(cartItemService.getAllCartItems())
                 .build();
     }
 //    @DeleteMapping

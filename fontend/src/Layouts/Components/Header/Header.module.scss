@@ -182,6 +182,46 @@
 }
 
 // Responsive design
+@media (max-width: 1200px) {
+  .nav-list {
+    gap: 24px;
+  }
+
+  .search-box input {
+    width: 240px;
+  }
+}
+
+@media (max-width: 992px) {
+  .wrapper {
+    padding: 0 16px;
+    height: 56px;
+  }
+
+  .logo {
+    font-size: 1.25rem;
+  }
+
+  .nav {
+    display: none; // hide nav like Shopee on tablet/mobile
+  }
+
+  .user-actions {
+    gap: 12px;
+    flex: 1;
+    justify-content: flex-end;
+  }
+
+  .search-box {
+    flex: 1;
+    max-width: 520px;
+
+    input {
+      width: 100%;
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .wrapper {
     padding: 0 16px;
@@ -196,8 +236,9 @@
     padding: 6px 12px;
   }
   
-  .search-box input {
-    width: 150px;
+  .search-box {
+    flex: 1;
+    input { width: 100%; }
   }
 }
 
@@ -216,7 +257,7 @@
   }
   
   .search-box {
-    display: none;
+    flex: 1;
   }
   
   .user-menu .avatar {

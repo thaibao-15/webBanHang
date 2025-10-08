@@ -71,13 +71,22 @@ public class CartItemService {
         return cartItemMapper.toCartItemResponse(cartItem);
     }
 
-    public List<CartItemResponse> getAllCartItems(String userid){
-        userRepository.findById(userid).orElseThrow(
-                () -> new AppException(ErrorCode.USER_NOT_EXISTED));
+    public List<CartItemResponse> getAllCartItems(){
+        var username = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        Cart cart = cartRepository.findByUser_Id(userid);
+        User user =userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
+        Cart cart = cartRepository.findByUser_UsernameAndStatus(username,"active");
+        if(cart==null) {
+            cart =new Cart();
+            cart.setUser(user);
+            cart.setCreatedAt(LocalDateTime.now());
+            cart.setStatus("active");
+
+            cartRepository.save(cart);
+        }
         List<CartItem> items = cartItemRepository.findByCart_Id(cart.getId());
+
         return cartItemMapper.toCartItemList(items);
     }
     public void deleteCartItem(DeleteCartItemRequest request){
@@ -91,6 +100,9 @@ public class CartItemService {
     }
 
     public CartItemResponse updateCartItem(CartItemUpdateRequest request){
+        var username= SecurityContextHolder.getContext().getAuthentication().getName();
+        userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
         CartItem cartItem= cartItemRepository.findById(request.getId()).orElseThrow(
                 () -> new AppException(ErrorCode.CARTITEM_NOT_EXIST));
         cartItemMapper.updateCartItem(cartItem,request);
