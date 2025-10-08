@@ -29,7 +29,7 @@ public class Product {
     private String description;
     private String image;
 
-    @Column(nullable = false, precision = 18, scale = 2)
+
     private BigDecimal price;
 
     private  String status;

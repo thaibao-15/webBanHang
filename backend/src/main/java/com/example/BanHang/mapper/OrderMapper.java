@@ -27,7 +27,7 @@ public interface OrderMapper {
 
     @Mapping(target = "id",ignore = true)
     @Mapping(target = "orderDate", ignore = true)
-    @Mapping(target = "dateUpdate", ignore = true)
+//    @Mapping(target = "dateUpdate", ignore = true)
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "totalAmount", ignore = true)
     @Mapping(target = "orderDetails", ignore = true)

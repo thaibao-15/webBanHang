@@ -52,7 +52,7 @@ function SignUp() {
 
   return (
     <div className={cx('signup-container')}>
-      <h2 className={cx('signup-title')}>Đăng ký</h2>
+
       <form className={cx('signup-form')} onSubmit={handleSubmit}>
         <input
           type="email"

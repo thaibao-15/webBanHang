@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -20,7 +21,7 @@ public class OrderDetail {
 
     private Integer quantity;
 
-    private double price;
+    private BigDecimal price;
 
     @ManyToOne
     @JoinColumn(name = "order_id")

@@ -18,12 +18,6 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class OrderController {
     OrderService orderService;
-    @PostMapping
-    ApiResponse<OrderResponse> createOrder(@RequestBody OrderCreationRequest request){
-        return ApiResponse.<OrderResponse>builder()
-                .result(orderService.createOrder(request))
-                .build();
-    }
 
     @PutMapping("/{id}")
     ApiResponse<OrderResponse> updateOrder(@RequestBody OrderUpdateRequest request,@PathVariable Integer id){

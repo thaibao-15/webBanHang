@@ -1,9 +1,9 @@
 import styles from './Login.module.scss';
 import classNames from 'classnames/bind';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getToken, setToken, removeToken } from 'src/Service/Localstorage';
+import { setToken } from 'src/Service/Localstorage';
 const cx = classNames.bind(styles);
 
 
@@ -11,8 +11,7 @@ const cx = classNames.bind(styles);
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
+    
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -50,16 +49,21 @@ function Login() {
             });
     };
 
+    const handleGoogleLogin = () => {
+        // Redirect to backend Google OAuth2 endpoint (adjust if different)
+        window.location.href = "http://localhost:8080/identity/oauth2/authorization/google";
+    };
+
 
 
 
 
     return (
         <div className={cx('login-container')}>
-            <h2 className={cx('login-title')}>Đăng nhập</h2>
+        
             <form className={cx('login-form')} onSubmit={handleSubmit} >
 
-                <input type='text' placceholder='Tên đăng nhập'
+                <input type='text' placeholder='Tên đăng nhập'
                     value={username}
                     onChange={(e) => setUsername(e.target.value)} />
                 <input type='password' placeholder='Mật khẩu'
@@ -67,6 +71,10 @@ function Login() {
                     onChange={e => setPassword(e.target.value)} />
 
                 <button type='submit' className={cx('login-button')} >Đăng nhập</button>
+                <button type='button' className={cx('google-button')} onClick={handleGoogleLogin}>
+                    <span className={cx('google-icon')}>G</span>
+                    Đăng nhập bằng Google
+                </button>
                 <p className={cx('signup-link')}>Chưa có tài khoản? <Link to="/signup">Đăng ký</Link></p>
             </form>
 

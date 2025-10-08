@@ -37,7 +37,7 @@ public class Order {
     @jakarta.persistence.Column(name = "order_date")
     LocalDateTime orderDate;
 
-    LocalDateTime dateUpdate;
+//    LocalDateTime dateUpdate;
 
     String status;
 
