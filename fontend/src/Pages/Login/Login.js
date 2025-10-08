@@ -67,7 +67,7 @@ function Login() {
                     onChange={e => setPassword(e.target.value)} />
 
                 <button type='submit' className={cx('login-button')} >Đăng nhập</button>
-                <p className={cx('signup-link')}>Chưa có tài khoản? <Link to="/signin">Đăng ký</Link></p>
+                <p className={cx('signup-link')}>Chưa có tài khoản? <Link to="/signup">Đăng ký</Link></p>
             </form>
 
         </div>

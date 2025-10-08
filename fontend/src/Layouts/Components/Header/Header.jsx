@@ -1,15 +1,23 @@
 import styles from './Header.module.scss';
 import classNames from 'classnames/bind';
-import { Link } from 'react-router-dom';
-import { getToken } from '~/Service/Localstorage';
+import { Link, useNavigate } from 'react-router-dom';
+import { getToken, removeToken } from '~/Service/Localstorage';
+import React, { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
 function Header() {
+  const navigate = useNavigate();
+  const [openUserMenu, setOpenUserMenu] = useState(false);
     const handleCartClick = () => {
         console.log('Cart clicked');
         // Navigate to cart page or open cart modal
     };
+  const handleLogout = () => {
+    removeToken();
+    setOpenUserMenu(false);
+    navigate('/login');
+  };
 
     return (
         <header className={cx('wrapper')}>
@@ -57,13 +65,27 @@ function Header() {
 
                     {/* User Avatar / Login */}
                     {getToken() ? (
-                        <div className={cx('avatar')}>
-                            <Link to="/profile">B</Link>
-                        </div>
+                      <div className={cx('avatar-wrapper')}>
+                        <button
+                          type="button"
+                          className={cx('avatar')}
+                          onClick={() => setOpenUserMenu(v => !v)}
+                          aria-haspopup="menu"
+                          aria-expanded={openUserMenu}
+                        >
+                          B
+                        </button>
+                        {openUserMenu && (
+                          <div className={cx('user-dropdown')} role="menu">
+                            <Link to="/profile" className={cx('dropdown-item')} onClick={() => setOpenUserMenu(false)}>Hồ sơ</Link>
+                            <button className={cx('dropdown-item', 'danger')} onClick={handleLogout}>Đăng xuất</button>
+                          </div>
+                        )}
+                      </div>
                     ) : (
-                        <Link to="/login" >
-                            Đăng nhập
-                        </Link>
+                      <Link to="/login" className={cx('login-link')}>
+                        Đăng nhập
+                      </Link>
                     )}
                 </div>
             </div>

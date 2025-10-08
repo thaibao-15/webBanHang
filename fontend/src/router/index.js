@@ -5,7 +5,7 @@ import Upload from '~/Pages/Upload';
 import Header from '~/Layouts/Components/Header';
 import DetailProduct from '~/Pages/DetailProduct';
 import Login from '~/Pages/Login';
-import SignIn from '~/Pages/SignIn';
+import SignUp from '~/Pages/SignUp';
 import Cart from '~/Pages/Cart';
 
 //không cần login
@@ -16,7 +16,7 @@ const publicRoutes = [
     { path: 'upload', component: Upload, layout: Header },
     { path: 'products/:id', component: DetailProduct },
     { path: 'login', component: Login, layout: null },
-    { path: 'signin', component: SignIn, layout: null },
+    { path: 'signup', component: SignUp, layout: null },
     { path: 'cart', component: Cart },
 
     // layout null để không sử dụng layout mặc định,
