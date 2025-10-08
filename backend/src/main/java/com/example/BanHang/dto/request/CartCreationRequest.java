@@ -17,7 +17,7 @@ import java.util.Set;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CartCreationRequest {
-    String userId; // nếu sau này bạn có entity User thì nên đổi sang @ManyToOne
+//    String userId; // nếu sau này bạn có entity User thì nên đổi sang @ManyToOne
 
 //    LocalDateTime createdAt;
 

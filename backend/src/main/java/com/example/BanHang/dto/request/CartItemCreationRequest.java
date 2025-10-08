@@ -21,6 +21,5 @@ public class CartItemCreationRequest {
 
     Integer productId; // nếu bạn có entity Product thì nên đổi sang @ManyToOne
 
-
     Integer quantity;
 }

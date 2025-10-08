@@ -1,8 +1,13 @@
 package com.example.BanHang.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import com.example.BanHang.dto.request.CartCreationRequest;
 import com.example.BanHang.dto.request.CartItemUpdateRequest;
+import com.example.BanHang.entity.User;
+import com.example.BanHang.mapper.CartMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.example.BanHang.dto.request.CartItemCreationRequest;
@@ -35,19 +40,34 @@ public class CartItemService {
     CartRepository cartRepository;
     ProductRepository productRepository;
     UserRepository userRepository;
+    CartMapper cartMapper;
 
     public CartItemResponse createCartItem(CartItemCreationRequest request){
-        Cart cart = cartRepository.findById(String.valueOf(request.getCartId())).orElseThrow(() ->
-                new AppException(ErrorCode.CART_NOT_EXIST));
+        var username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Cart cart = cartRepository.findByUser_UsernameAndStatus(username,"active");
+        if(cart== null){
+            User user= userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+            cart = new Cart();
+            cart.setUser(user);
+            cart.setCreatedAt(LocalDateTime.now());
+            cart.setStatus("active");
+            cartRepository.save(cart);
+        }
+
         Product product = productRepository.findById(request.getProductId()).orElseThrow(() ->
                 new AppException(ErrorCode.PRODUCT_NOT_EXIST));
 
-        CartItem cartItem = cartItemMapper.toCartItem(request);
-        cartItem.setProducts(product);
-        cartItem.setCart(cart);
+        CartItem cartItem =cartItemRepository.findByCart_IdAndProducts_Id(cart.getId(),product.getId()).orElse(null);
+        if (cartItem ==null) {
+            cartItem = cartItemMapper.toCartItem(request);
+            cartItem.setProducts(product);
+            cartItem.setCart(cart);
+
+        }else {
+            cartItem.setQuantity(cartItem.getQuantity()+request.getQuantity());
+        }
 
         cartItemRepository.save(cartItem);
-
         return cartItemMapper.toCartItemResponse(cartItem);
     }
 

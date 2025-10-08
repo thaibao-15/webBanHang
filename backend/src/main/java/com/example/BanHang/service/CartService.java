@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,13 +28,20 @@ public class CartService {
     UserRepository userRepository;
 
     public CartResponse createCart(CartCreationRequest request){
-        User user = userRepository.findById(request.getUserId()).orElseThrow(
-                () -> new AppException(ErrorCode.USER_NOT_EXISTED));
-        Cart cart = cartMapper.toCart(request);
-        cart.setUser(user);
-        cart.setCreatedAt(LocalDateTime.now());
+        var name = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(name).orElseThrow(() ->
+            new AppException(ErrorCode.USER_NOT_EXISTED)
+        );
+        Cart cart =cartRepository.findByUser_UsernameAndStatus(name,"active");
+        if (cart==null) {
 
-        cartRepository.save(cart);
+            cart = cartMapper.toCart(request);
+            cart.setUser(user);
+            cart.setCreatedAt(LocalDateTime.now());
+            cart.setStatus("active");
+
+            cartRepository.save(cart);
+        }
         return cartMapper.toCartResponse(cart);
 
 

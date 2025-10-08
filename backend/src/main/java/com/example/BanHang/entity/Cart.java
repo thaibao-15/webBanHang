@@ -21,6 +21,7 @@ public class Cart {
     Integer id;
 
     LocalDateTime createdAt;
+    String status;
 
     // Quan hệ 1-nhiều với CartItem
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -29,4 +30,5 @@ public class Cart {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+
 }
